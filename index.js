@@ -2,7 +2,18 @@ const express = require('express');
 const routes = require('./routes');
 const path = require('path');
 const bodyParser = require('body-parser');
-// crear una app 
+
+// create the connection to bd
+const db = require('./config/db');
+
+// import the model so that will .sync it creates the db
+require('./models/Projects')
+
+db.sync()
+    .then(() => console.log('OK server'))
+    .catch(err => console.log(err))
+
+// create an app const
 const app = express();
 
 // load statics folders

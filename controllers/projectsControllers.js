@@ -1,3 +1,5 @@
+const Projects = require('../models/Projects')
+
 // .render: allows add html items
 exports.projectsHome = (req, res) => {
     res.render('index', {
@@ -17,7 +19,7 @@ exports.projectsFormulario = (req, res) => {
     })
 }
 
-exports.projectsNuevo = (req, res) => {
+exports.projectsNuevo = async (req, res) => {
     // validate that the input isnt empty
     const { nombre } = req.body;
 
@@ -33,7 +35,10 @@ exports.projectsNuevo = (req, res) => {
             errores
         })
     } else { // if not errors exists, add at bd
-        console.log(nombre)
+        //const url = slug(nombre).toLowerCase(); // dinamic url
+        const project = await Projects.create({ nombre });
+        res.redirect('/')
+
     }
 
 
