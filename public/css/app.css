@@ -88,7 +88,7 @@ body {
 }
 .boton span {
     font-size: 2.2rem;
-    margin-left: 20px;
+    margin-left: 10px; 
 }
 
 .boton:hover {
@@ -100,6 +100,7 @@ body {
     float: right;
     background-color: red!important;
     color: white;
+    font-weight: bold;
 }
 .campo a {
     color: black;

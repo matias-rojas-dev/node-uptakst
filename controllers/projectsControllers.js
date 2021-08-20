@@ -1,11 +1,15 @@
-const Projects = require('../models/Projects')
+const Projects = require('../models/Projects');
 
 // .render: allows add html items
-exports.projectsHome = (req, res) => {
+exports.projectsHome = async (req, res) => {
+    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+
     res.render('index', {
-        nombrePagina: 'Proyectos'
+        nombrePagina: `Proyectos ${res.locals.year}`,
+        allProjects,
     })
 }
+
 
 exports.projectsNosotros = (req, res) => {
     res.render('nosotros', {
@@ -13,13 +17,20 @@ exports.projectsNosotros = (req, res) => {
     })
 };
 
-exports.projectsFormulario = (req, res) => {
+
+exports.projectsFormulario = async (req, res) => {
+    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+
     res.render('nuevoProyecto', {
-        nombrePagina: 'Nuevo Proyecto'
+        nombrePagina: 'Nuevo Proyecto',
+        allProjects,
     })
 }
 
+
 exports.projectsNuevo = async (req, res) => {
+    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+
     // validate that the input isnt empty
     const { nombre } = req.body;
 
@@ -32,7 +43,9 @@ exports.projectsNuevo = async (req, res) => {
     if (errores.length > 0) {
         res.render('nuevoProyecto', {
             nombrePagina: 'Nuevo Proyecto',
-            errores
+            errores,
+            allProjects,
+
         })
     } else { // if not errors exists, add at bd
         //const url = slug(nombre).toLowerCase(); // dinamic url
@@ -40,6 +53,45 @@ exports.projectsNuevo = async (req, res) => {
         res.redirect('/')
 
     }
+}
 
 
+exports.projectByUrl = async (req, res, next) => {
+    const allProjectsPromise = Projects.findAll(); // show all data SELECT * from projects
+
+    const projectPromise = Projects.findOne({
+        where: { // SELECT * FROM projects WHERE id = 20 example
+            url: req.params.url
+        }
+    })
+
+    if (!projectPromise) return next();
+
+    const [allProjects, project] = await Promise.all([allProjectsPromise, projectPromise])
+
+    res.render('to-do', {
+        nombrePagina: 'Tareas del proyecto',
+        allProjects,
+        project,
+    })
+}
+
+
+exports.editForm = async (req, res, next) => {
+    const allProjectsPromise = Projects.findAll(); // show all data SELECT * from projects
+
+    const projectPromise = Projects.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+
+    const [allProjects, project] = await Promise.all([allProjectsPromise, projectPromise])
+
+
+    res.render('nuevoProyecto', {
+        nombrePagina: 'Editar Proyecto',
+        allProjects,
+        project,
+    })
 }
