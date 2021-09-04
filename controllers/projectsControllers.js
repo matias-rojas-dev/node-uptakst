@@ -49,7 +49,7 @@ exports.projectsNuevo = async (req, res) => {
         })
     } else { // if not errors exists, add at bd
         //const url = slug(nombre).toLowerCase(); // dinamic url
-        const project = await Projects.create({ nombre });
+        await Projects.create({ nombre });
         res.redirect('/')
 
     }
@@ -95,3 +95,37 @@ exports.editForm = async (req, res, next) => {
         project,
     })
 }
+
+
+exports.updateProject = async (req, res) => {
+
+    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+
+    const { nombre } = req.body;
+
+    let errors = [];
+
+    if (!nombre)
+        errors.push({ 'texto': 'Agrega un nombre al proyecto' });
+
+    // if errors exists
+    if (errors.length > 0) {
+        res.render('nuevoProyecto', {
+            nombrePagina: 'Nuevo Proyecto',
+            errors,
+            allProjects,
+
+        })
+    } else { // if not errors exists, add at bd
+        await Projects.update( // UPDATE projects SET nombre="Nuevo Proyecto" WHERE nombre="..."
+            { nombre: nombre },
+            { where: { id: req.params.id } }
+        );
+        res.redirect('/')
+
+    }
+
+}
+
+
+

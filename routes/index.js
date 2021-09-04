@@ -12,6 +12,7 @@ const {
     projectsNuevo,
     projectByUrl,
     editForm,
+    updateProject
 } = require('../controllers/projectsControllers')
 
 module.exports = function () {
@@ -24,10 +25,18 @@ module.exports = function () {
         projectsNuevo
     ); // this react with post method
 
+
+
+
     router.get('/projects/:url', projectByUrl);
 
     //Update the project
     router.get('/project/edit/:id', editForm);
+
+    router.post('/nuevo-proyecto/:id',
+        body('nombre').not().isEmpty().trim().escape(),
+        updateProject
+    ); // this react with post method
 
 
     return router;
