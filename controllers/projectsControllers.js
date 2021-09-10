@@ -128,4 +128,13 @@ exports.updateProject = async (req, res) => {
 }
 
 
+exports.deteleProject = async (req, res, next) => {
 
+    const { urlProject } = req.query;
+    const result = await Projects.destroy({ where: { url: urlProject } }) // ex: DELETE FROM '' WHERE id = 20
+
+    if (!result)
+        return next();
+
+    res.send(`${urlProject} has been deleted`);
+}

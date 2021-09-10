@@ -12,7 +12,8 @@ const {
     projectsNuevo,
     projectByUrl,
     editForm,
-    updateProject
+    updateProject,
+    deteleProject
 } = require('../controllers/projectsControllers')
 
 module.exports = function () {
@@ -38,6 +39,8 @@ module.exports = function () {
         updateProject
     ); // this react with post method
 
+    // delete project
+    router.delete('/projects/:url', deteleProject)
 
     return router;
 }

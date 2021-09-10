@@ -1,1 +1,1 @@
-alert('KJFKSD')
+import tareas from './moduls/projects';
