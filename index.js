@@ -8,7 +8,7 @@ const db = require('./config/db');
 
 // import the model so that will .sync it creates the db
 require('./models/Projects')
-
+require('./models/Tareas')
 db.sync()
     .then(() => console.log('OK server'))
     .catch(err => console.log(err))
