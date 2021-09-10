@@ -1,4 +1,5 @@
 const Projects = require('../models/Projects');
+const Tareas = require('../models/Tareas');
 
 // .render: allows add html items
 exports.projectsHome = async (req, res) => {
@@ -69,10 +70,25 @@ exports.projectByUrl = async (req, res, next) => {
 
     const [allProjects, project] = await Promise.all([allProjectsPromise, projectPromise])
 
+    // view tasks in the current project
+    const tareas = await Tareas.findAll({
+        where: {
+            projectId: project.id
+        },
+        include: [
+            {
+                model: Projects
+            }
+        ]
+    });
+
+
+
     res.render('to-do', {
         nombrePagina: 'Tareas del proyecto',
         allProjects,
         project,
+        tareas
     })
 }
 
