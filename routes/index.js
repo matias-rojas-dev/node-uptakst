@@ -5,6 +5,7 @@ const router = express.Router();
 const { body } = require('express-validator/check');
 
 // controllers
+const { addTask } = require('../controllers/tareasController')
 const {
     projectsHome,
     projectsNosotros,
@@ -41,6 +42,9 @@ module.exports = function () {
 
     // delete project
     router.delete('/projects/:url', deteleProject)
+
+    // task
+    router.post('/projects/:url', addTask)
 
     return router;
 }

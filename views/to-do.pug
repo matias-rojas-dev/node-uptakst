@@ -4,8 +4,13 @@ block contenido
     .contenido-principal 
         h1 #{nombrePagina} - #{project.nombre}
 
-
-        pre= varDump(project)
+        form.agregar-tarea(action=`/projects/${project.url}` method="POST")
+            .campo 
+                label(for="tarea") Tarea: 
+                input.nombre-tarea(type="text" name="tarea" placeholder="Nombre tarea")
+            .campo-enviar   
+                input.boton.nueva-tarea(type="submit" value="agregar")
+        //-pre= varDump(project)
 
         .contenedor-acciones 
             a(href=`/project/edit/${project.id}` class="boton") Editar proyecto 
