@@ -10,6 +10,7 @@ const {
     changeTaskStatus,
     deleteTask
 } = require('../controllers/tareasController')
+
 const {
     projectsHome,
     projectsNosotros,
@@ -19,7 +20,11 @@ const {
     editForm,
     updateProject,
     deteleProject
-} = require('../controllers/projectsControllers')
+} = require('../controllers/projectsControllers');
+
+const {
+    formCreateAccount,
+} = require('../controllers/usuariosController')
 
 module.exports = function () {
     router.get('/', projectsHome);
@@ -56,5 +61,8 @@ module.exports = function () {
 
     // Delete tasks
     router.delete('/tareas/:id', deleteTask);
+
+    // Create account
+    router.get('/crear-cuenta', formCreateAccount)
     return router;
 }
