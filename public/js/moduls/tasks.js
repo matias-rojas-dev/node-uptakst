@@ -1,8 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { uploadProgress } from '../functions/progress'
-
 const tareas = document.querySelector('.listado-pendientes');
 
 if (tareas) {
@@ -22,9 +20,7 @@ if (tareas) {
                 .then(function (response) {
                     if (response.status === 200) {
                         // https://developer.mozilla.org/es/docs/Web/API/Element/classList
-                        icon.classList.toggle('completo');
-
-                        uploadProgress();
+                        icon.classList.toggle('completo')
                     }
                 })
 
@@ -59,8 +55,6 @@ if (tareas) {
                                 response.data,
                                 'success'
                             );
-
-                            uploadProgress();
 
 
                         })
