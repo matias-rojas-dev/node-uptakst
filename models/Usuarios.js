@@ -12,10 +12,27 @@ const Usuarios = db.define('usuarios', {
     email: {
         type: Sequelize.STRING(60),
         allowNull: false,
+        validate: {
+            isEmail: {
+                msg: 'Agrega un correo válido'
+            },
+            notEmpty: {
+                msg: 'El email no puede ir vacía'
+            }
+        },
+        unique: {
+            args: true,
+            msg: 'Usuario ya registrado'
+        }
     },
     password: {
         type: Sequelize.STRING(60),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: 'La contraseña no puede ir vacía'
+            }
+        }
     }
 }, {
     hooks: {

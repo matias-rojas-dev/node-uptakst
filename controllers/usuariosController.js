@@ -6,16 +6,21 @@ exports.formCreateAccount = (req, res) => {
     })
 };
 
-exports.createAccount = (req, res) => {
+exports.createAccount = async (req, res) => {
     //read data
     const { email, password } = req.body;
-
-    //create user
-    Usuarios.create({
-        email,
-        password
-    })
-        .then(() => {
-            res.redirect('/iniciar-sesion')
+    try {
+        //create user
+        await Usuarios.create({
+            email,
+            password
+        });
+        res.redirect('/iniciar-sesion')
+    } catch (error) {
+        res.render('createAccount', {
+            nombrePagina: 'Crear cuenta en upTask',
+            errors: error.errors // object was sequelize return
         })
+    }
+
 }
