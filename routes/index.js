@@ -6,6 +6,7 @@ const { body } = require('express-validator/check');
 
 // controllers
 const { addTask } = require('../controllers/tareasController')
+
 const {
     projectsHome,
     projectsNosotros,
@@ -15,7 +16,12 @@ const {
     editForm,
     updateProject,
     deteleProject
-} = require('../controllers/projectsControllers')
+} = require('../controllers/projectsControllers');
+
+const {
+    formCreateAccount,
+    createAccount
+} = require('../controllers/usuariosController')
 
 module.exports = function () {
     router.get('/', projectsHome);
@@ -46,5 +52,8 @@ module.exports = function () {
     // task
     router.post('/projects/:url', addTask)
 
+    //users
+    router.get('/crear-cuenta', formCreateAccount)
+    router.post('/crear-cuenta', createAccount)
     return router;
 }
