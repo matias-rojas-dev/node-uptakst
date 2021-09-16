@@ -5,11 +5,7 @@ const router = express.Router();
 const { body } = require('express-validator/check');
 
 // controllers
-const {
-    addTask,
-    changeTaskStatus,
-    deleteTask
-} = require('../controllers/tareasController')
+const { addTask } = require('../controllers/tareasController')
 const {
     projectsHome,
     projectsNosotros,
@@ -45,16 +41,10 @@ module.exports = function () {
     ); // this react with post method
 
     // delete project
-    router.delete('/projects/:url', deteleProject);
+    router.delete('/projects/:url', deteleProject)
 
     // task
-    router.post('/projects/:url', addTask);
+    router.post('/projects/:url', addTask)
 
-    // Upload tasks
-    // patch: only change one part at the object
-    router.patch('/tareas/:id', changeTaskStatus);
-
-    // Delete tasks
-    router.delete('/tareas/:id', deleteTask);
     return router;
 }
