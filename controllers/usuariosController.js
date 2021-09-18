@@ -17,9 +17,12 @@ exports.createAccount = async (req, res) => {
         });
         res.redirect('/iniciar-sesion')
     } catch (error) {
+        req.flash('error', error.errors.map(errorText => errorText.message)) // uniter of errors
         res.render('createAccount', {
             nombrePagina: 'Crear cuenta en upTask',
-            errors: error.errors // object was sequelize return
+            messages: req.flash(), // object was sequelize return
+            email,
+            password
         })
     }
 

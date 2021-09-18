@@ -2,7 +2,9 @@ const express = require('express');
 const routes = require('./routes');
 const path = require('path');
 const helpers = require('./helpers/helpers');
-const flash = require('connect-flash')
+const flash = require('connect-flash');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // create the connection to bd
 const db = require('./config/db');
@@ -32,6 +34,15 @@ app.set('views', path.join(__dirname, './views'))
 // add flash messages
 app.use(flash())
 
+app.use(cookieParser());
+
+// sessions allow us nave between different pages without login again
+app.use(session({
+    secret: 'superSecret',
+    resave: false,
+    saveUninitialized: false
+}))
+
 // use var dump https://www.geeksforgeeks.org/php-var_dump-function/
 app.use((req, res, next) => {
     // get the function to send it to the whole app
@@ -43,6 +54,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     const date = new Date();
     res.locals.year = date.getFullYear();
+    res.locals.messages = req.flash();
     next();
 })
 
