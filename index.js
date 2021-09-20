@@ -5,7 +5,7 @@ const helpers = require('./helpers/helpers');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
+const passport = require('./config/passport');
 // create the connection to bd
 const db = require('./config/db');
 
@@ -47,8 +47,13 @@ app.use(session({
 app.use((req, res, next) => {
     // get the function to send it to the whole app
     res.locals.varDump = helpers.varDump;
+    res.locals.mensajes = req.flash();
     next(); // next middleware
 })
+
+// using passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // middleware example
 app.use((req, res, next) => {

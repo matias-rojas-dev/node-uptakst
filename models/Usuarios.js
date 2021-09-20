@@ -44,7 +44,12 @@ const Usuarios = db.define('usuarios', {
 
 );
 
+//custom methods
+Usuarios.prototype.verifyPassword = function (password) {
+    return bcrypt.compareSync(password, this.password) //true or false
+}
+
 // Each users can create their projects and create more than one
-Usuarios.hasMany(Proyectos)
+//Usuarios.hasMany(Proyectos)
 
 module.exports = Usuarios;

@@ -20,9 +20,12 @@ const {
 
 const {
     formCreateAccount,
-    createAccount
+    createAccount,
+    formLogin
 } = require('../controllers/usuariosController')
-
+const {
+    authUser
+} = require('../controllers/authController')
 module.exports = function () {
     router.get('/', projectsHome);
     router.get('/nosotros', projectsNosotros);
@@ -55,5 +58,9 @@ module.exports = function () {
     //users
     router.get('/crear-cuenta', formCreateAccount)
     router.post('/crear-cuenta', createAccount)
+
+    //login
+    router.get('/iniciar-sesion', formLogin)
+    router.post('/iniciar-sesion', authUser)
     return router;
 }

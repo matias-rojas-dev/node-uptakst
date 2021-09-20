@@ -6,6 +6,15 @@ exports.formCreateAccount = (req, res) => {
     })
 };
 
+exports.formLogin = (req, res) => {
+    const { error } = res.locals.mensajes
+    console.log(error)
+    res.render('login', {
+        nombrePagina: 'Iniciar sesión en upTask',
+        error: error
+    })
+};
+
 exports.createAccount = async (req, res) => {
     //read data
     const { email, password } = req.body;
