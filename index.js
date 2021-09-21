@@ -57,9 +57,11 @@ app.use(passport.session());
 
 // middleware example
 app.use((req, res, next) => {
+
     const date = new Date();
     res.locals.year = date.getFullYear();
     res.locals.messages = req.flash();
+    res.locals.usuarios = { ...req.user } || null;
     next();
 })
 

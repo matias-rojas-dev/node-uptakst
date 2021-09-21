@@ -26,3 +26,40 @@ exports.addTask = async (req, res, next) => {
     res.redirect(`/projects/${req.params.url}`)
 
 }
+
+exports.changeTaskState = async (req, res) => {
+    const { id } = req.params;
+    const task = await Tareas.findOne({
+        where: { id }
+    });
+
+    // change state 0 -> 1 or 1 -> 0
+    let state = 0;
+    if (task.estado === state) {
+        state = 1;
+    };
+
+    task.estado = state;
+
+    const result = await task.save();
+
+    if (!result) return next();
+
+    res.status(200).send('Upload')
+
+}
+
+exports.deleteTask = async (req, res) => {
+    const { id } = req.params;
+
+    const result = await Tareas.destroy({
+        where: { id }
+    });
+
+    if (!result) return next();
+
+    res.status(200).send('Eliminando')
+
+
+
+}

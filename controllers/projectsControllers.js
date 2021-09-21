@@ -3,6 +3,8 @@ const Tareas = require('../models/Tareas');
 
 // .render: allows add html items
 exports.projectsHome = async (req, res) => {
+    console.log(res.locals.usuarios)
+
     const allProjects = await Projects.findAll(); // show all data SELECT * from projects
 
     res.render('index', {

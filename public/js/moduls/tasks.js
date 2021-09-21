@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import { uploadProgress } from "../functions/progress";
 
 const tareas = document.querySelector('.listado-pendientes');
 
@@ -12,15 +13,16 @@ if (tareas) {
             // https://www.w3schools.com/jsref/prop_node_parentelement.asp
 
             const idTask = icon.parentElement.parentElement.dataset.tarea;
-
-            //req to tareas/id
+            //req to tareas/id  
             const url = `${location.origin}/tareas/${idTask}`;
 
             axios.patch(url, { idTask })
                 .then(function (response) {
                     if (response.status === 200) {
                         // https://developer.mozilla.org/es/docs/Web/API/Element/classList
-                        icon.classList.toggle('completo')
+                        icon.classList.toggle('completo');
+
+                        uploadProgress();
                     }
                 })
 
@@ -47,7 +49,6 @@ if (tareas) {
 
                             if (response.status === 200) {
                                 taskHTML.parentElement.removeChild(taskHTML)
-
                             }
 
                             Swal.fire(
@@ -55,6 +56,8 @@ if (tareas) {
                                 response.data,
                                 'success'
                             );
+
+                            uploadProgress();
 
 
                         })
@@ -66,8 +69,6 @@ if (tareas) {
                         })
                 }
             });
-
-            console.log(taskId, taskHTML)
 
         }
     })
