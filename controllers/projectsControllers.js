@@ -3,9 +3,11 @@ const Tareas = require('../models/Tareas');
 
 // .render: allows add html items
 exports.projectsHome = async (req, res) => {
-    console.log(res.locals.usuarios)
+    //console.log(res.locals.usuarios);
 
-    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+    const usuarioId = res.locals.usuarios.id;
+
+    const allProjects = await Projects.findAll({ where: { usuarioId } }); // show all data SELECT * from projects
 
     res.render('index', {
         nombrePagina: `Proyectos ${res.locals.year}`,
@@ -22,8 +24,9 @@ exports.projectsNosotros = (req, res) => {
 
 
 exports.projectsFormulario = async (req, res) => {
-    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+    const usuarioId = res.locals.usuarios.id;
 
+    const allProjects = await Projects.findAll({ where: { usuarioId } }); // show all data SELECT * from projects
     res.render('nuevoProyecto', {
         nombrePagina: 'Nuevo Proyecto',
         allProjects,
@@ -32,8 +35,9 @@ exports.projectsFormulario = async (req, res) => {
 
 
 exports.projectsNuevo = async (req, res) => {
-    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+    const usuarioId = res.locals.usuarios.id;
 
+    const allProjects = await Projects.findAll({ where: { usuarioId } }); // show all data SELECT * from projects
     // validate that the input isnt empty
     const { nombre } = req.body;
 
@@ -51,8 +55,9 @@ exports.projectsNuevo = async (req, res) => {
 
         })
     } else { // if not errors exists, add at bd
+        const usuarioId = res.locals.usuarios.id;
         //const url = slug(nombre).toLowerCase(); // dinamic url
-        await Projects.create({ nombre });
+        await Projects.create({ nombre, usuarioId });
         res.redirect('/')
 
     }
@@ -60,11 +65,14 @@ exports.projectsNuevo = async (req, res) => {
 
 
 exports.projectByUrl = async (req, res, next) => {
-    const allProjectsPromise = Projects.findAll(); // show all data SELECT * from projects
+
+    const usuarioId = res.locals.usuarios.id;
+    const allProjectsPromise = Projects.findAll({ where: { usuarioId } }); // show all data SELECT * from projects
 
     const projectPromise = Projects.findOne({
         where: { // SELECT * FROM projects WHERE id = 20 example
-            url: req.params.url
+            url: req.params.url,
+            usuarioId,
         }
     })
 
@@ -96,11 +104,13 @@ exports.projectByUrl = async (req, res, next) => {
 
 
 exports.editForm = async (req, res, next) => {
-    const allProjectsPromise = Projects.findAll(); // show all data SELECT * from projects
+    const usuarioId = res.locals.usuarios.id;
+    const allProjectsPromise = Projects.findAll({ where: { usuarioId } }); // show all data SELECT * from projects
 
     const projectPromise = Projects.findOne({
         where: {
-            id: req.params.id
+            id: req.params.id,
+            usuarioId
         }
     });
 
@@ -117,7 +127,9 @@ exports.editForm = async (req, res, next) => {
 
 exports.updateProject = async (req, res) => {
 
-    const allProjects = await Projects.findAll(); // show all data SELECT * from projects
+    const usuarioId = res.locals.usuarios.id;
+
+    const allProjects = await Projects.findAll({ where: { usuarioId } }); // show all data SELECT * from projects
 
     const { nombre } = req.body;
 
@@ -154,5 +166,5 @@ exports.deteleProject = async (req, res, next) => {
     if (!result)
         return next();
 
-    res.send(`${urlProject} has been deleted`);
+    res.status(200).send(`${urlProject} has been deleted`);
 }
