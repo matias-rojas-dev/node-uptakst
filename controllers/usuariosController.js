@@ -36,3 +36,9 @@ exports.createAccount = async (req, res) => {
     }
 
 }
+
+exports.resetPassword = (req, res) => {
+    res.render('resetPassword', {
+        nombrePagina: 'Restablecer contraseña'
+    })
+}

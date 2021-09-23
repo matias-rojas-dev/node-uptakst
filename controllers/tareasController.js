@@ -37,7 +37,7 @@ exports.changeTaskState = async (req, res) => {
     let state = 0;
     if (task.estado === state) {
         state = 1;
-    };
+    }
 
     task.estado = state;
 

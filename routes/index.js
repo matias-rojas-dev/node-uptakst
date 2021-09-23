@@ -25,7 +25,8 @@ const {
 const {
     formCreateAccount,
     createAccount,
-    formLogin
+    formLogin,
+    resetPassword,
 } = require('../controllers/usuariosController');
 
 const {
@@ -102,5 +103,8 @@ module.exports = function () {
 
     // logout
     router.get('/cerrar-sesion', logout)
+
+    // reset Password
+    router.get('/restablecer', resetPassword)
     return router;
 }
