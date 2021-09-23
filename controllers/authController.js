@@ -47,6 +47,7 @@ exports.sendToken = async (req, res) => {
 
     // user exists
     const token = crypto.randomBytes(20).toString('hex');
-    console.log(token)
+    const expiryTokenTime = Date.now() + 3600000 // one hour;
+
 
 }
