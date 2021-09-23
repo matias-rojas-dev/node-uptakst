@@ -34,7 +34,8 @@ const {
     userIsAuthenticated,
     logout,
     sendToken,
-    resetPasswordWithToken
+    resetPasswordWithToken,
+    updatePassword
 } = require('../controllers/authController')
 
 module.exports = function () {
@@ -110,6 +111,7 @@ module.exports = function () {
     router.get('/restablecer', resetPassword);
     router.post('/restablecer', sendToken);
     router.get('/restablecer/:token', resetPasswordWithToken);
+    router.post('/restablecer/:token', updatePassword)
 
     return router;
 }
