@@ -46,8 +46,33 @@ exports.sendToken = async (req, res) => {
     }
 
     // user exists
-    const token = crypto.randomBytes(20).toString('hex');
-    const expiryTokenTime = Date.now() + 3600000 // one hour;
+    getUserByEmail.token = crypto.randomBytes(20).toString('hex');
+    getUserByEmail.expiryTokenTime = Date.now() + 3600000 // one hour;
+
+    // save to DB
+    await getUserByEmail.save();
+
+    // url the reset - https://developer.mozilla.org/es/docs/Web/HTTP/Headers/Host
+    const resetUrl = `http://${req.headers.host}/restablecer/${getUserByEmail.token}`;
+
+    console.log(resetUrl)
 
 
+}
+
+exports.resetPasswordWithToken = async (req, res) => {
+    const userWithTokenFilter = await Usuarios.findOne({
+        where: {
+            token: req.params.token
+        }
+    });
+
+    if (!userWithTokenFilter) {
+        req.flash('error', 'No válido');
+        res.redirect('/restablecer')
+    }
+
+    res.render('newPassword', {
+        nombrePagina: 'Restablecer contraseña'
+    })
 }

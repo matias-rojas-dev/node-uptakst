@@ -33,7 +33,8 @@ const {
     authUser,
     userIsAuthenticated,
     logout,
-    sendToken
+    sendToken,
+    resetPasswordWithToken
 } = require('../controllers/authController')
 
 module.exports = function () {
@@ -107,6 +108,8 @@ module.exports = function () {
 
     // reset Password
     router.get('/restablecer', resetPassword);
-    router.post('/restablecer', sendToken)
+    router.post('/restablecer', sendToken);
+    router.get('/restablecer/:token', resetPasswordWithToken);
+
     return router;
 }
