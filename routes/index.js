@@ -32,7 +32,8 @@ const {
 const {
     authUser,
     userIsAuthenticated,
-    logout
+    logout,
+    sendToken
 } = require('../controllers/authController')
 
 module.exports = function () {
@@ -105,6 +106,7 @@ module.exports = function () {
     router.get('/cerrar-sesion', logout)
 
     // reset Password
-    router.get('/restablecer', resetPassword)
+    router.get('/restablecer', resetPassword);
+    router.post('/restablecer', sendToken)
     return router;
 }
