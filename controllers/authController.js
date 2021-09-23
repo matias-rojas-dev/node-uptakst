@@ -43,10 +43,7 @@ exports.sendToken = async (req, res) => {
 
     if (!getUserByEmail) {
         req.flash('error', 'No existe esa cuenta');
-        res.render('resetPassword', {
-            nombrePagina: 'Restablecer contraseña',
-            messages: req.flash()
-        })
+        res.redirect('/restablecer');
     }
 
     // user exists

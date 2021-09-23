@@ -43,26 +43,27 @@ app.use(session({
     saveUninitialized: false
 }))
 
-// use var dump https://www.geeksforgeeks.org/php-var_dump-function/
-app.use((req, res, next) => {
-    // get the function to send it to the whole app
-    res.locals.varDump = helpers.varDump;
-    res.locals.mensajes = req.flash();
-    next(); // next middleware
-})
 
 // using passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 // middleware example
-app.use((req, res, next) => {
+//app.use((req, res, next) => {
+//    const date = new Date();
+//    res.locals.year = date.getFullYear();
+//    res.locals.messages = req.flash();
+//    res.locals.usuarios = { ...req.user } || null;
+//    next();
+//})
 
-    const date = new Date();
-    res.locals.year = date.getFullYear();
+// use var dump https://www.geeksforgeeks.org/php-var_dump-function/
+app.use((req, res, next) => {
+    // get the function to send it to the whole app
+    res.locals.varDump = helpers.varDump;
     res.locals.messages = req.flash();
     res.locals.usuarios = { ...req.user } || null;
-    next();
+    next(); // next middleware
 })
 
 

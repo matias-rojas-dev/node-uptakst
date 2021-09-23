@@ -7,8 +7,8 @@ exports.formCreateAccount = (req, res) => {
 };
 
 exports.formLogin = (req, res) => {
-    const { error } = res.locals.mensajes
-    console.log(error)
+    const { error } = res.locals.messages
+    console.log(error, 123)
     res.render('login', {
         nombrePagina: 'Iniciar sesión en upTask',
         error: error
