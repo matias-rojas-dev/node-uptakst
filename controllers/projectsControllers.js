@@ -3,7 +3,6 @@ const Tareas = require('../models/Tareas');
 
 // .render: allows add html items
 exports.projectsHome = async (req, res) => {
-    //console.log(res.locals.usuarios);
 
     const usuarioId = res.locals.usuarios.id;
 

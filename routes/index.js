@@ -27,6 +27,7 @@ const {
     createAccount,
     formLogin,
     resetPassword,
+    confirmAccount,
 } = require('../controllers/usuariosController');
 
 const {
@@ -111,7 +112,10 @@ module.exports = function () {
     router.get('/restablecer', resetPassword);
     router.post('/restablecer', sendToken);
     router.get('/restablecer/:token', resetPasswordWithToken);
-    router.post('/restablecer/:token', updatePassword)
+    router.post('/restablecer/:token', updatePassword);
+
+    // confirm account
+    router.get('/confirmar/:mail', confirmAccount)
 
     return router;
 }

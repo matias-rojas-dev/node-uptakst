@@ -13,7 +13,7 @@ const db = require('./config/db');
 require('./models/Projects')
 require('./models/Tareas')
 db.sync()
-    .then(() => console.log('OK server'))
+    .then(() => console.log('Server is running!'))
     .catch(err => console.log(err))
 
 // create an app const
@@ -59,7 +59,9 @@ app.use(passport.session());
 
 // use var dump https://www.geeksforgeeks.org/php-var_dump-function/
 app.use((req, res, next) => {
+    const date = new Date();
     // get the function to send it to the whole app
+    res.locals.year = date.getFullYear();
     res.locals.varDump = helpers.varDump;
     res.locals.messages = req.flash();
     res.locals.usuarios = { ...req.user } || null;
