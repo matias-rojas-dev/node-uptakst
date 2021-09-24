@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const bcrypt = require('bcrypt-nodejs');
+const sendEmailUtil = require('../handlers/email');
 
 // http://www.passportjs.org/packages/passport-local/
 exports.authUser = passport.authenticate('local', {
@@ -55,8 +56,17 @@ exports.sendToken = async (req, res) => {
 
     // url the reset - https://developer.mozilla.org/es/docs/Web/HTTP/Headers/Host
     const resetUrl = `http://${req.headers.host}/restablecer/${getUserByEmail.token}`;
+    // send mail with token
+    await sendEmailUtil.sendEmail({
+        user: getUserByEmail,
+        subject: 'Password reset',
+        resetUrl: resetUrl,
+        file: 'resetPasswordMail'
+    });
 
-    console.log(resetUrl)
+    // redirect when the query is send
+    req.flash('correcto', 'Se ha enviado validación a tu correo');
+    res.redirect('/iniciar-sesion');
 
 
 }

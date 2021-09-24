@@ -18,17 +18,28 @@ let transporter = nodemailer.createTransport({
 });
 
 // html 
-const generateHtml = () => {
-    const html = pug.renderFile(`${__dirname}/../views/emails/resetPassword.pug`);
-    return juice(html)
+const generateHtml = (file, options = {}) => {
+    const html = pug.renderFile(`${__dirname}/../views/emails/${file}.pug`, options);
+    return juice(html); //https://www.npmjs.com/package/juice
 }
 
-let mailOptions = {
-    from: 'upTask <no-reply@uptask.com>',
-    to: 'correo@correo.com',
-    subject: 'Password reset',
-    text: 'Hola',
-    html: generateHtml()
-};
+exports.sendEmail = async (options) => {
 
-transporter.sendMail(mailOptions)
+    const { user, subject, file } = options;
+
+    const html = generateHtml(file, options);
+    const text = htmlToText.htmlToText(html);
+
+    let mailOptions = {
+        from: 'upTask <no-reply@uptask.com>',
+        to: user.email,
+        subject: subject,
+        text,
+        html,
+    };
+
+    const sendEmailUtil = util.promisify(transporter.sendMail, transporter);
+    return sendEmailUtil.call(transporter, mailOptions)
+}
+
+
