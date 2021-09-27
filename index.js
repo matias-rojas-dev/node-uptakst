@@ -6,6 +6,8 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('./config/passport');
+require('dotenv').config({ path: 'varials.env' });
+require('./handlers/email');
 // create the connection to bd
 const db = require('./config/db');
 
@@ -74,6 +76,10 @@ app.use((req, res, next) => {
 // res: server responde
 app.use('/', routes());
 
-app.listen(3000);
+// host and port dinamic to heroku
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
 
-require('./handlers/email')
+app.listen(port, host, () => {
+    console.log('Server is running with dinamic host and port!')
+})
