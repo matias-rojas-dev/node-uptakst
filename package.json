@@ -4,8 +4,9 @@
   "description": "Proyecto UpTask with Node and MVC",
   "main": "index.js",
   "scripts": {
+    "developing": "concurrently \"yarn dev\" \"yarn watch\" ",
     "dev": "nodemon ./index.js",
-    "start": "concurrently \"yarn dev\" \"yarn watch\" ",
+    "start": "node ./index.js",
     "watch": "webpack -w --mode development"
   },
   "repository": {
